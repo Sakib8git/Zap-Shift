@@ -21,26 +21,31 @@ const brandLogos = [
 
 const Brands = () => {
   return (
-    <Swiper
-      slidesPerView={5}
-      loop={true}
-      centeredSlides={true}
-      spaceBetween={30}
-      grabCursor={true}
-      modules={[Autoplay]}
-      autoplay={{
-        delay: 1000,
-        disableOnInteraction: false,
-      }}
-    >
-      {brandLogos.map((brandLogo, index) => {
-        return (
-          <SwiperSlide key={index}>
-            <img src={brandLogo} alt="" />
-          </SwiperSlide>
-        );
-      })}
-    </Swiper>
+    <>
+      <h4 className="text-center py-2 text-3xl font-bold mb-5">
+        We've helped thousands of sales teams
+      </h4>
+      <Swiper
+        slidesPerView={5}
+        loop={true}
+        centeredSlides={true}
+        spaceBetween={30}
+        grabCursor={true}
+        modules={[Autoplay]}
+        autoplay={{
+          delay: 1000,
+          disableOnInteraction: false,
+        }}
+      >
+        {brandLogos.map((brandLogo, index) => {
+          return (
+            <SwiperSlide key={index}>
+              <img src={brandLogo} alt="" />
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+    </>
   );
 };
 
