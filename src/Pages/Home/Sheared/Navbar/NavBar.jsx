@@ -1,20 +1,28 @@
 import React from "react";
 import Logo from "../../../../Components/Logo/Logo";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
+import useAuth from "../../../../Hooks/useAuth";
 
 const NavBar = () => {
+  const { user, logOut } = useAuth();
+  const handleLogOut = () => {
+    logOut()
+      .then()
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const links = (
     <>
       <li>
-        <NavLink to=''>Servises</NavLink>
+        <NavLink to="">Servises</NavLink>
       </li>
       <li>
-        <NavLink to=''>About Us</NavLink>
+        <NavLink to="">About Us</NavLink>
       </li>
       <li>
-        <NavLink to='/coverage'>Coverage</NavLink>
+        <NavLink to="/coverage">Coverage</NavLink>
       </li>
-      
     </>
   );
   return (
@@ -53,7 +61,19 @@ const NavBar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? (
+          <button onClick={handleLogOut} className="btn">
+            Logout
+          </button>
+        ) : (
+          <Link to="/login" className="btn">
+            Login
+          </Link>
+        )}
+
+        <Link to="/beARider" className="btn btn-primary text-black mx-4">
+            Be a rider
+          </Link>
       </div>
     </div>
   );
