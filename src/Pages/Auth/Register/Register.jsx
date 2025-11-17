@@ -1,8 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import axios from "axios";
 
 const Register = () => {
   const {
@@ -10,12 +11,44 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { registerUser } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleRegistration = (data) => {
-    console.log("after regis", data);
+    console.log("after regis", data.photo[0]);
+    // Get the file from form data
+    const profileImg = data.photo[0];
     registerUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
+        //1. store photo in form data
+        const formData = new FormData();
+        formData.append("image", profileImg);
+
+        // 2. send the photo to srote and get url
+        const Image_Api_Url = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host
+        }`;
+
+        axios.post(Image_Api_Url, formData).then((res) => {
+          console.log("after img uplode", res.data.data.url);
+
+          // update user profile to firebase
+          const userProfile = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+          updateUserProfile(userProfile)
+            .then(() => {
+              console.log("user profile update done");
+              navigate(location?.state || "/");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -28,6 +61,30 @@ const Register = () => {
       <p className="text-center">Please Register</p>
       <form className="card-body" onSubmit={handleSubmit(handleRegistration)}>
         <fieldset className="fieldset">
+          {/* name */}
+          <label className="label">Name</label>
+          <input
+            type="text"
+            {...register("name", { required: true })}
+            className="input"
+            placeholder="Your Name"
+          />
+          {errors.name?.type === "required" && (
+            <p className="text-red-500">Name is requiered</p>
+          )}
+          {/* Image */}
+          <label className="label">Uplode a Photo</label>
+          {/* <input type="file" className="file-input file-input-ghost" /> */}
+          <input
+            type="file"
+            {...register("photo", { required: true })}
+            className="file-input"
+            placeholder="Your Image"
+          />
+          {errors.photo?.type === "required" && (
+            <p className="text-red-500">Photo is requiered</p>
+          )}
+          {/* email */}
           <label className="label">Email</label>
           <input
             type="email"
@@ -68,12 +125,12 @@ const Register = () => {
         </fieldset>
         <p className="text-center">
           Already have an account?{" "}
-          <Link className="text-blue-600" to="/login">
+          <Link state={location.state} className="text-blue-600" to="/login">
             Login
           </Link>{" "}
         </p>
       </form>
-        <SocialLogin></SocialLogin>
+      <SocialLogin></SocialLogin>
     </div>
   );
 };

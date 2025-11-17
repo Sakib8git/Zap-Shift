@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { CgLayoutGrid } from "react-icons/cg";
-import { data, Link, useNavigate } from "react-router";
+import { data, Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
@@ -12,13 +12,14 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const { signInUser } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
   const handleLogin = (data) => {
     // console.log(data);
     signInUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
-        navigate("/");
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         console.log(error);
@@ -62,7 +63,7 @@ const Login = () => {
         </fieldset>
         <p className="text-center">
           New to Zap-Shift?{" "}
-          <Link className="text-blue-600" to="/register">
+          <Link state={location.state} className="text-blue-600" to="/register">
             Register
           </Link>{" "}
         </p>
