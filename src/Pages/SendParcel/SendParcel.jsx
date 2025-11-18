@@ -1,15 +1,20 @@
-import React from "react";
+import React, { use } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
 
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    //formState: { errors },
   } = useForm();
+  const { user } = useAuth();
+  // axios----------------
+  const axiosSecure = useAxiosSecure();
   const serviceCenters = useLoaderData();
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
@@ -58,10 +63,10 @@ const SendParcel = () => {
         }).then((result) => {
           if (result.isConfirmed) {
             // if agree
-// ...............................
-
-
-
+            // .send DB........................
+            axiosSecure.post("/parcels", data).then((res) => {
+              console.log("DB saving", res.data);
+            });
 
             // Swal.fire({
             //   title: "Confirm!",
@@ -138,6 +143,7 @@ const SendParcel = () => {
                 type="text"
                 {...register("senderName")}
                 className="input w-full "
+                defaultValue={user?.displayName}
                 placeholder="Sender Name"
               />
               {/* email------------------ */}
@@ -145,6 +151,7 @@ const SendParcel = () => {
               <input
                 type="email"
                 {...register("senderEmail")}
+                defaultValue={user?.email}
                 className="input w-full "
                 placeholder="Sender Email"
               />
@@ -179,7 +186,6 @@ const SendParcel = () => {
                     </option>
                   ))}
                 </select>
-                <span className="label">Optional</span>
               </fieldset>
 
               {/* ----------------------------------- */}
@@ -198,7 +204,6 @@ const SendParcel = () => {
                     </option>
                   ))}
                 </select>
-                <span className="label">Optional</span>
               </fieldset>
 
               {/* ----------------------------------- */}
