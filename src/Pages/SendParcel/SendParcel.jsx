@@ -11,8 +11,15 @@ const SendParcel = () => {
     handleSubmit,
     control,
     //formState: { errors },
-  } = useForm();
+  } =
+    useForm();
+    //   {
+    //   defaultValues: {
+    //     parcelType: "document", // ✅ safe default
+    //   },
+    // }
   const { user } = useAuth();
+
   // axios----------------
   const axiosSecure = useAxiosSecure();
   const serviceCenters = useLoaderData();
@@ -78,6 +85,8 @@ const SendParcel = () => {
       }
     }
     console.log(cost);
+    data.cost = cost;
+    console.log("Parcel Type:", data.parcelType);
   };
 
   return (
@@ -96,7 +105,7 @@ const SendParcel = () => {
                 value="document"
                 {...register("parcelType")}
                 className="radio"
-                defaultChecked
+                // defaultChecked
               />
               Document
             </lable>
