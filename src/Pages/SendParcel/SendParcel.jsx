@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
@@ -11,17 +11,17 @@ const SendParcel = () => {
     handleSubmit,
     control,
     //formState: { errors },
-  } =
-    useForm();
-    //   {
-    //   defaultValues: {
-    //     parcelType: "document", // ✅ safe default
-    //   },
-    // }
+  } = useForm();
+  //   {
+  //   defaultValues: {
+  //     parcelType: "document", // ✅ safe default
+  //   },
+  // }
   const { user } = useAuth();
 
   // axios----------------
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
   const serviceCenters = useLoaderData();
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
@@ -66,20 +66,24 @@ const SendParcel = () => {
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes!",
+          confirmButtonText: "Confirm!",
         }).then((result) => {
           if (result.isConfirmed) {
             // if agree
             // .send DB........................
             axiosSecure.post("/parcels", data).then((res) => {
               console.log("DB saving", res.data);
+              if (res.data.insertedId) {
+                navigate("/dashboard/my-parcels");
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Parcel has created. Please Pay",
+                  showConfirmButton: false,
+                  timer: 2500,
+                });
+              }
             });
-
-            // Swal.fire({
-            //   title: "Confirm!",
-            //   text: "Your parcel is ready to Go!",
-            //   icon: "success",
-            // });
           }
         });
       }
@@ -103,9 +107,7 @@ const SendParcel = () => {
               <input
                 type="radio"
                 value="document"
-                {...register("parcelType")}
-                className="radio"
-                // defaultChecked
+                {...register("parcelType", { required: true })}
               />
               Document
             </lable>
@@ -113,8 +115,7 @@ const SendParcel = () => {
               <input
                 type="radio"
                 value="non-document"
-                {...register("parcelType")}
-                className="radio"
+                {...register("parcelType", { required: true })}
               />
               Non-Document
             </lable>

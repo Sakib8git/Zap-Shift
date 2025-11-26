@@ -50,6 +50,21 @@ const MyParcels = () => {
     });
   };
 
+  const handlePayment = async (parcel) => {
+    const paymentInfo = {
+      cost: parcel.cost,
+      parcelId: parcel._id,
+      senderEmail: parcel.senderEmail,
+      parcelName: parcel.parcelName,
+    };
+    const res = await axiosSecure.post(
+      "/payment-checkout-session",
+      paymentInfo
+    );
+    window.location.assign(res.data.url);
+    console.log(res.data.url);
+  };
+
   return (
     <div>
       MyParcels: {parcels.length}
@@ -58,7 +73,7 @@ const MyParcels = () => {
           {/* head */}
           <thead>
             <tr>
-              <th></th>
+              <th>Num</th>
               <th>Name</th>
               <th>Cost</th>
               <th>Payment </th>
@@ -72,15 +87,25 @@ const MyParcels = () => {
                 <th>{i + 1}</th>
                 <td>{parcel.parcelName}</td>
                 <td>{parcel.cost}</td>
+                
                 <td>
                   {parcel.paymentStatus ? (
-                    <span className="text-green-500">{parcel.status}</span>
+                    <span className="text-green-500">{parcel.paymentStatus}</span>
                   ) : (
-                    <Link to={`/dashboard/payment/${parcel._id}`}>
-                      <button className="btn btn-sm btn-primary text-black">
-                        pay
-                      </button>
-                    </Link>
+                    <button
+                      onClick={() => {
+                        handlePayment(parcel);
+                      }}
+                      className="btn btn-sm btn-primary text-black"
+                    >
+                      pay
+                    </button>
+
+                    // <Link to={`/dashboard/payment/${parcel._id}`}>
+                    //   <button className="btn btn-sm btn-primary text-black">
+                    //     pay
+                    //   </button>
+                    // </Link>
                   )}
                 </td>
                 <td>{parcel.delicaryStatus}</td>

@@ -6,9 +6,8 @@ const PaymentCancel = () => {
     <div>
       <h4 className="text-4xl text-red-500">Payment Cancel</h4>
       <Link to="/dashboard/my-parcels">
-      <button className="btn btn-error">Try Again</button>
-      
-       </Link>
+        <button className="btn btn-error">Try Again</button>
+      </Link>
     </div>
   );
 };

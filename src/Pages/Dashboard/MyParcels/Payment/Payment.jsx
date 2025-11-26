@@ -49,4 +49,4 @@ const Payment = () => {
 };
 
 export default Payment;
-<h1>Plax may</h1>;
+
