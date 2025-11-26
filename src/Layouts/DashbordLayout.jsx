@@ -71,12 +71,27 @@ const DashbordLayout = () => {
             {/* ------------------- */}
             {/*note: our own dashbord */}
             <li>
-              <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="MyParcels" to="/dashboard/my-parcels">
-                  {/* <CiDeliveryTruck /> */}
-                  🚚
-                  <span className="is-drawer-close:hidden">My Parcels</span>
-                  </NavLink>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="MyParcels"
+                to="/dashboard/my-parcels"
+              >
+                {/* <CiDeliveryTruck /> */}
+                🚚
+                <span className="is-drawer-close:hidden">My Parcels</span>
+              </NavLink>
+            </li>
+            {/*note: our own dashbord */}
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="MyParcels"
+                to="/dashboard/payment-history"
+              >
+                {/* <CiDeliveryTruck /> */}
+                💳
+                <span className="is-drawer-close:hidden">My Payment</span>
+              </NavLink>
             </li>
             {/* ------------------- */}
             {/* List item */}
