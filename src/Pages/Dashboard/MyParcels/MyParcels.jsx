@@ -78,6 +78,7 @@ const MyParcels = () => {
               <th>Cost</th>
               <th>Payment </th>
               <th>Delivary Status</th>
+              <th>Tracking ID</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -87,10 +88,12 @@ const MyParcels = () => {
                 <th>{i + 1}</th>
                 <td>{parcel.parcelName}</td>
                 <td>{parcel.cost}</td>
-                
+
                 <td>
                   {parcel.paymentStatus ? (
-                    <span className="text-green-500">{parcel.paymentStatus}</span>
+                    <span className="text-green-500">
+                      {parcel.paymentStatus}
+                    </span>
                   ) : (
                     <button
                       onClick={() => {
@@ -108,7 +111,8 @@ const MyParcels = () => {
                     // </Link>
                   )}
                 </td>
-                <td>{parcel.delicaryStatus}</td>
+                <td>{parcel.deliveryStatus}</td>
+                <td>{parcel.deliveryStatus}</td>
                 <td>
                   <button className="btn btn-square hover:bg-primary ">
                     <CiEdit />

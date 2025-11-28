@@ -139,6 +139,7 @@ const DashbordLayout = () => {
                     to="/dashboard/assign-riders"
                   >
                     {/* <RiEBikeFill /> */}
+                    🚵🏻
                     <span className="is-drawer-close:hidden">
                       Assign Riders
                     </span>
