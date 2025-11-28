@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import useRole from "../Hooks/useRole";
-import { FaMotorcycle, FaUsers } from "react-icons/fa";
+import { FaMotorcycle, FaTasks, FaUsers } from "react-icons/fa";
 
 const DashbordLayout = () => {
   const { role } = useRole();
@@ -97,26 +97,61 @@ const DashbordLayout = () => {
               </NavLink>
             </li>
             {/* ------------------- */}
-            {/* <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Approve Riders"
-                to="/dashboard/approve-riders"
-              >
-                <FaMotorcycle />
-                <span className="is-drawer-close:hidden">Approve Riders</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Users Management"
-                to="/dashboard/users-management"
-              >
-                <FaUsers></FaUsers>
-                <span className="is-drawer-close:hidden">Users Management</span>
-              </NavLink>
-            </li> */}
+            {role === "rider" && (
+              <>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assigned Deliveries"
+                    to="/dashboard/assigned-deliveries"
+                  >
+                    <FaTasks />
+                    <span className="is-drawer-close:hidden">
+                      Assigned Deliveries
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Completed Deliveries"
+                    to="/dashboard/completed-deliveries"
+                  >
+                    ✔️
+                    <span className="is-drawer-close:hidden">
+                      Completed Deliveries
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {/* <>
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Assigned Deliveries"
+                  to="/dashboard/assigned-deliveries"
+                >
+                  <FaTasks />
+                  <span className="is-drawer-close:hidden">
+                    Assigned Deliveries
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Completed Deliveries"
+                  to="/dashboard/completed-deliveries"
+                >
+                  ✔️
+                  <span className="is-drawer-close:hidden">
+                    Completed Deliveries
+                  </span>
+                </NavLink>
+              </li>
+            </> */}
 
             {role === "admin" && (
               <>

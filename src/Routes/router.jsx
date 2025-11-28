@@ -18,6 +18,10 @@ import ApproveRiders from "../Pages/Dashboard/ApproveRiders/ApproveRiders";
 import UsersManagement from "../Pages/Dashboard/UsersManagement/UsersManagement";
 import AdminRoute from "./AdminRoute";
 import AssignRiders from "../Pages/AssignRiders/AssignRiders";
+import AssignedDeliveries from "../Pages/Dashboard/AssignedDeliveries/AssignedDeliveries";
+import RiderRoute from "./RiderRoute";
+import CompletedDeliveries from "../Pages/Dashboard/CompletedDeliveries/CompletedDeliveries";
+import ParcelTrack from "../Pages/ParcelTrack/ParcelTrack";
 // import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
@@ -66,6 +70,10 @@ export const router = createBrowserRouter([
         path: "register",
         Component: Register,
       },
+      {
+        path: 'parcel-track/:trackingId', 
+        Component: ParcelTrack
+      }
     ],
   },
   {
@@ -91,6 +99,23 @@ export const router = createBrowserRouter([
       {
         path: "payment-cancel",
         Component: PaymentCancel,
+      },
+      // rider only routes
+      {
+        path: "assigned-deliveries",
+        element: (
+          <RiderRoute>
+            <AssignedDeliveries></AssignedDeliveries>
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "completed-deliveries",
+        element: (
+          <RiderRoute>
+            <CompletedDeliveries></CompletedDeliveries>
+          </RiderRoute>
+        ),
       },
       {
         path: "payment-history",

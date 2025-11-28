@@ -44,9 +44,18 @@ const AssignRiders = () => {
       riderName: rider.name,
       parcelId: selectedParcel._id,
       trackingId: selectedParcel.trackingId,
+      deliveryStatus: "assigned", // or whatever status you want
     };
+
+    // const riderAssignInfo = {
+    //   riderId: rider._id,
+    //   riderEmail: rider.email,
+    //   riderName: rider.name,
+    //   parcelId: selectedParcel._id,
+    //   trackingId: selectedParcel.trackingId,
+    // };
     axiosSecure
-      .patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
+      .patch(`/parcels/${selectedParcel._id}/status`, riderAssignInfo)
       .then((res) => {
         if (res.data.modifiedCount) {
           riderModalRef.current.close();
