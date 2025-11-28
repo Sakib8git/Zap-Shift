@@ -14,6 +14,10 @@ import Payment from "../Pages/Dashboard/MyParcels/Payment/Payment";
 import PaymentSuccess from "../Pages/Dashboard/MyParcels/Payment/PaymentSuccess";
 import PaymentCancel from "../Pages/Dashboard/MyParcels/Payment/PaymentCancel";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
+import ApproveRiders from "../Pages/Dashboard/ApproveRiders/ApproveRiders";
+import UsersManagement from "../Pages/Dashboard/UsersManagement/UsersManagement";
+import AdminRoute from "./AdminRoute";
+// import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +35,7 @@ export const router = createBrowserRouter([
             <Rider></Rider>
           </PrivateRoute>
         ),
+        loader: () => fetch("/ServiceCenters.json").then((res) => res.json()),
       },
       {
         path: "coverage",
@@ -89,6 +94,22 @@ export const router = createBrowserRouter([
       {
         path: "payment-history",
         Component: PaymentHistory,
+      },
+      {
+        path: "approve-riders",
+        element: (
+          <AdminRoute>
+            <ApproveRiders></ApproveRiders>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "users-management",
+        element: (
+          <AdminRoute>
+            <UsersManagement></UsersManagement>
+          </AdminRoute>
+        ),
       },
     ],
   },

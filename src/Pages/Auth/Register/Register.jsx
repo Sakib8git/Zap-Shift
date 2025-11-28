@@ -4,6 +4,7 @@ import useAuth from "../../../Hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Register = () => {
   const {
@@ -15,14 +16,14 @@ const Register = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
+  const axiosSecure = useAxiosSecure();
   const handleRegistration = (data) => {
-    console.log("after regis", data.photo[0]);
+    // console.log("after regis", data.photo[0]);
     // Get the file from form data
     const profileImg = data.photo[0];
     registerUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
+        // console.log(result.user);
         //1. store photo in form data
         const formData = new FormData();
         formData.append("image", profileImg);
@@ -33,12 +34,24 @@ const Register = () => {
         }`;
 
         axios.post(Image_Api_Url, formData).then((res) => {
-          console.log("after img uplode", res.data.data.url);
+          const photoURL = res.data.data.url;
+
+          // creat user in dB
+          const userInfo = {
+            email: data.email,
+            displayName: data.name,
+            photoURL: photoURL,
+          };
+          axiosSecure.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("user created in the database");
+            }
+          });
 
           // update user profile to firebase
           const userProfile = {
             displayName: data.name,
-            photoURL: res.data.data.url,
+            photoURL: photoURL,
           };
           updateUserProfile(userProfile)
             .then(() => {
